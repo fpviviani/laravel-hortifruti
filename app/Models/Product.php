@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Eloquent as Model;
 
 /**
@@ -10,8 +12,10 @@ use Eloquent as Model;
  * @version October 25, 2020, 6:18 pm UTC
  *
  */
-class Product extends Model
+class Product extends Model implements HasMedia
 {
+
+    use HasMediaTrait;
 
     public $table = 'products';
     
@@ -62,5 +66,15 @@ class Product extends Model
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('products')->singleFile();
+    }
+    
+    /**
+     * Check whether user photo is default or not
+     *
+     * @return boolean
+     */
+    public function isPhotoDefault()
+    {
+        return empty($this->attributes['photo'])?? false;
     }
 }

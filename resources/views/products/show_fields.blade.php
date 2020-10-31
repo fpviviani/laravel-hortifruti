@@ -22,16 +22,18 @@
     <p>{{ $product->stock }}</p>
 </div>
 
-{{-- Photo Field --}}
-<div class="form-group col-md-12 show-margin-fix">
-    {!! Form::label('photo', \Lang::get('attributes.photo').':') !!}
-    {{-- Div needed to restrict link to img --}}
-    <div style="width:10%">
-        <a href="{{ $product->photo }}" target="_blank">
-            <img class="thumbnail" src="{{ $product->photo }}"/>
-        </a>
+@if(!$product->isPhotoDefault())
+    {{-- Photo Field --}}
+    <div class="form-group col-md-12 show-margin-fix">
+        {!! Form::label('photo', \Lang::get('attributes.photo').':') !!}
+        {{-- Div needed to restrict link to img --}}
+        <div style="width:10%">
+            <a href="{{ $product->photo }}" target="_blank">
+                <img class="thumbnail" src="{{ $product->photo }}"/>
+            </a>
+        </div>
     </div>
-</div>
+@endif
 
 <!-- Created At Field -->
 <div class="form-group">

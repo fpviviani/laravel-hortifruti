@@ -17,6 +17,7 @@ class CreateBuysTable extends Migration
             $table->increments('id');
             $table->bigInteger('user_id')->unsigned();
             $table->float('total_value');
+            $table->boolean('is_delivered')->default(0);
             $table->timestamp('date');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');

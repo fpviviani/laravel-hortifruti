@@ -21,7 +21,7 @@ class Buy extends Model
 
 
     public $fillable = [
-        'user_id'
+        'user_id', 'total_value', 'date', 'is_delivered'
     ];
 
     /**
@@ -32,6 +32,7 @@ class Buy extends Model
     protected $casts = [
         'id' => 'integer',
         'user_id' => 'integer',
+        'is_delivered' => 'boolean',
         'total_value' => 'float'
     ];
 

@@ -97,7 +97,7 @@
 
             <div class="form-group has-feedback{{ $errors->has('adress') ? ' has-error' : '' }}">
                 <input type="text" class="form-control" name="sex" value="{{ old('adress') }}" placeholder="Endereço">
-                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                <span class="glyphicon glyphicon-globe form-control-feedback"></span>
 
                 @if ($errors->has('adress'))
                     <span class="help-block">
@@ -108,7 +108,7 @@
 
             <div class="form-group has-feedback{{ $errors->has('neighborhood') ? ' has-error' : '' }}">
                 <input type="text" class="form-control" name="sex" value="{{ old('neighborhood') }}" placeholder="Bairro">
-                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                <span class="glyphicon glyphicon-globe form-control-feedback"></span>
 
                 @if ($errors->has('neighborhood'))
                     <span class="help-block">
@@ -119,7 +119,7 @@
 
             <div class="form-group has-feedback{{ $errors->has('zip_code') ? ' has-error' : '' }}">
                 <input type="text" class="form-control" name="sex" value="{{ old('zip_code') }}" placeholder="CEP">
-                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                <span class="glyphicon glyphicon-globe form-control-feedback"></span>
 
                 @if ($errors->has('zip_code'))
                     <span class="help-block">
@@ -130,7 +130,7 @@
 
             <div class="form-group has-feedback{{ $errors->has('complement') ? ' has-error' : '' }}">
                 <input type="text" class="form-control" name="sex" value="{{ old('complement') }}" placeholder="Complemento">
-                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                <span class="glyphicon glyphicon-globe form-control-feedback"></span>
 
                 @if ($errors->has('complement'))
                     <span class="help-block">
@@ -173,22 +173,15 @@
             </div>
 
             <div class="row">
-                <div class="col-xs-8">
-                    <div class="checkbox icheck">
-                        <label>
-                            <input type="checkbox"> I agree to the <a href="#">terms</a>
-                        </label>
-                    </div>
-                </div>
                 <!-- /.col -->
-                <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                <div class="col-xs-4 pull-right">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Cadastrar</button>
                 </div>
                 <!-- /.col -->
             </div>
         </form>
 
-        <a href="{{ url('/login') }}" class="text-center">I already have a membership</a>
+        <a href="{{ url('/login') }}" class="text-center">Já possuo uma conta</a>
     </div>
     <!-- /.form-box -->
 </div>
