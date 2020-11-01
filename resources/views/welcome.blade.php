@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 font-weight-light mb-5">Adquiridas direto do produtor, sem agrotóxicos ou transgênicos. Está esperando o que?</p>
-                        <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Faça já sua encomenda</a>
+                        <a class="btn btn-primary btn-xl js-scroll-trigger" href="store">Faça já sua encomenda</a>
                     </div>
                 </div>
             </div>

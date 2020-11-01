@@ -63,6 +63,11 @@
             border-color: #c64402!important;
             box-shadow: 0 0 0 0.2rem rgba(38,143,255,.5)!important;
         }
+        .btn-primary:focus {
+            background-color: #c64402!important;
+            border-color: #c64402!important;
+            box-shadow: 0 0 0 0.2rem rgba(38,143,255,.5)!important;
+        }
     </style>
 </head>
 
@@ -71,7 +76,6 @@
   @include('layouts.front_navbar')
 
   <div class="header-loja">
-    <h1 class="text-uppercase font-weight-bold">Conheça nossas delícias!</h1>
   </div>
 
   <div class="container">
@@ -79,38 +83,38 @@
         @foreach($products as $product)
             <div class="col-lg-3 col-md-4 col-sm-6 col-6 mb-4">
                 <div class="card h-100">
-                <a href="#"><img class="card-img-top" src="{{$product->photo}}" alt=""></a>
-                <div class="card-body">
-                    <h5 class="card-title">
-                    {{$product->name}}
-                    </h5>
-                    <h5>R${{$product->price}}</h5>
-                    <h5>Disponível: {{$product->stock}} unidades.</h5>
-                    <button type="button" class="btn btn-primary btn-loja" data-toggle="modal" data-target="#exampleModalCenter">
-                    Adicionar ao carrrinho
-                    </button>
-                </div>
-                </div>
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Quantas unidades?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <a href="#"><img class="card-img-top" src="{{$product->photo}}" alt=""></a>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                        {{$product->name}}
+                        </h5>
+                        <h5>R${{$product->price}}</h5>
+                        <h5>Disponível: {{$product->stock}} unidades.</h5>
+                        <button type="button" class="btn btn-primary btn-loja"  product-id="{{$product->id}}" quantity="{{$product->stock}}"  data-toggle="modal" data-target="#exampleModalCenter">
+                        Adicionar ao carrrinho
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="input-group input-numero mb-3">
-                        <input type="number" class="form-control" placeholder="Unidades" aria-label="quantidade" aria-describedby="basic-addon1">
+                </div>
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Quantas unidades?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group input-numero mb-3">
+                            <input type="number" class="form-control quantity-input" placeholder="Unidades" aria-label="quantidade" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary add-button">Adicionar</button>
+                        </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary">Adicionar</button>
-                    </div>
-                    </div>
-                </div>
                 </div>
             </div>
         @endforeach
@@ -123,5 +127,66 @@
   <script src="{{ asset('js/front_jquery.min.js') }}"></script>
   <script src="{{ asset('js/front_bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('js/front_script.js') }}"></script>
+
+    <!-- Custom Scripts -->
+    <script type="text/javascript">
+
+        // Dynamically fill address
+        $(document).ready(function() {
+            var authUser = "{{{ (Auth::user()) ? Auth::user() : null }}}";
+            var inputQuantity = 0;
+            var productId = 0;
+            var availableQuantity = 0;
+
+            $(".quantity-input").on("change", function() {
+                if(authUser.length == 0){
+                    alert("É necessário logar primeiro.");
+                    window.location.href = "{{ url('/login') }}";
+                }
+
+                inputQuantity = $(this).val();
+                if (inputQuantity > availableQuantity || inputQuantity < 0){
+                    alert("Não é possível encomendar a quantidade desejada. Disponíveis: " + availableQuantity);
+                    $(this).val("0");
+                    return false;
+                }
+            });
+
+            $(".btn-loja").on("click", function() {
+                availableQuantity = $(this).attr("quantity");
+                productId = $(this).attr("product-id");
+            });
+
+            $(".add-button").on("click", function() {
+                if(authUser.length != 0){
+                    var userId = {{ Auth::user()->id }};
+                }
+                route = "{{ route('cart.modify', ':user_id') }}";
+                route = route.replace(":user_id", userId);
+
+                // Ajax request
+                $.ajax({
+                    url: route,
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        productId: productId,
+                        quantity: inputQuantity,
+                        type: "add"
+                    },
+                    success: function(response) {
+                        if(response.inserted == true){
+                            alert("Produto adicionado ao carrinho com sucesso!");
+                        }else{
+                            alert("Não foi possível adicionar o produto ao carrinho.");
+                        }
+                        window.location.href = "{{ url('/') }}" + userId + "/cart";
+                    }
+                });
+            });
+
+        });
+    </script>
 </body>
 </html>

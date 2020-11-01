@@ -6,12 +6,16 @@
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contato</a></li>
+                    @if(Request::is('*store*'))
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url('') }}">Inicio</a></li>
+                    @else
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contato</a></li>
+                    @endif
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="store">Loja</a></li>
                     @if(Auth::user())
                         @if(Auth::user()->name == "Super Admin")
                             <li class="nav-item"><a class="nav-link js-scroll-trigger" href="buys/not-delivered">Painel</a></li>
                         @endif
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="store">Loja</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="logout"
                             <a href="{!! url('/logout') !!}" class="btn btn-default btn-flat" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 Deslogar
@@ -21,7 +25,6 @@
                             {{ csrf_field() }}
                         </form>
                     @else
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Loja</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="login">Login</a></li>
                     @endif
                 </ul>

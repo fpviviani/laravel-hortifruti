@@ -48,6 +48,8 @@
             filter: brightness(60%) blur(9px) grayscale(20%);
         }
     </style>
+    @include('vendor.input-customizer.masks')
+	@stack('css')
 </head>
 <body class="hold-transition register-page">
 <div class="register-box">
@@ -85,7 +87,7 @@
             </div>
 
             <div class="form-group has-feedback{{ $errors->has('cpf') ? ' has-error' : '' }}">
-                <input type="text" class="form-control" name="sex" value="{{ old('cpf') }}" placeholder="CPF">
+                <input type="text" class="form-control document-mask" name="cpf" value="{{ old('cpf') }}" placeholder="CPF">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
 
                 @if ($errors->has('cpf'))
@@ -96,7 +98,7 @@
             </div>
 
             <div class="form-group has-feedback{{ $errors->has('adress') ? ' has-error' : '' }}">
-                <input type="text" class="form-control" name="sex" value="{{ old('adress') }}" placeholder="Endereço">
+                <input type="text" class="form-control" name="adress" value="{{ old('adress') }}" placeholder="Endereço">
                 <span class="glyphicon glyphicon-globe form-control-feedback"></span>
 
                 @if ($errors->has('adress'))
@@ -107,7 +109,7 @@
             </div>
 
             <div class="form-group has-feedback{{ $errors->has('neighborhood') ? ' has-error' : '' }}">
-                <input type="text" class="form-control" name="sex" value="{{ old('neighborhood') }}" placeholder="Bairro">
+                <input type="text" class="form-control" name="neighborhood" value="{{ old('neighborhood') }}" placeholder="Bairro">
                 <span class="glyphicon glyphicon-globe form-control-feedback"></span>
 
                 @if ($errors->has('neighborhood'))
@@ -118,7 +120,7 @@
             </div>
 
             <div class="form-group has-feedback{{ $errors->has('zip_code') ? ' has-error' : '' }}">
-                <input type="text" class="form-control" name="sex" value="{{ old('zip_code') }}" placeholder="CEP">
+                <input type="text" class="form-control zipcode-mask" name="zip_code" value="{{ old('zip_code') }}" placeholder="CEP">
                 <span class="glyphicon glyphicon-globe form-control-feedback"></span>
 
                 @if ($errors->has('zip_code'))
@@ -129,7 +131,7 @@
             </div>
 
             <div class="form-group has-feedback{{ $errors->has('complement') ? ' has-error' : '' }}">
-                <input type="text" class="form-control" name="sex" value="{{ old('complement') }}" placeholder="Complemento">
+                <input type="text" class="form-control" name="complement" value="{{ old('complement') }}" placeholder="Complemento">
                 <span class="glyphicon glyphicon-globe form-control-feedback"></span>
 
                 @if ($errors->has('complement'))
@@ -140,7 +142,7 @@
             </div>
 
             <div class="form-group has-feedback{{ $errors->has('email') ? ' has-error' : '' }}">
-                <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email">
+                <input type="email" class="form-control email-mask" name="email" value="{{ old('email') }}" placeholder="Email">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 
                 @if ($errors->has('email'))
@@ -204,5 +206,6 @@
         });
     });
 </script>
+@stack('scripts')
 </body>
 </html>

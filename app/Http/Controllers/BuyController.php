@@ -51,6 +51,9 @@ class BuyController extends AppBaseController
             $buy_product_input["product_quantity"] = $input["product_quantities"][$key];
             $buy_product_input["product_price"] = $input["product_prices"][$key];
             BuyProduct::create($buy_product_input);
+            $product = Product::find($product_id);
+            $product->stock -= $buy_product_input["product_quantity"];
+            $product->save();
         }
 
         Flash::success('Buy saved successfully.');

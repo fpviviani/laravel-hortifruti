@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Cart;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -14,7 +16,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
     /**
@@ -36,5 +37,30 @@ class HomeController extends Controller
     {
         $products = Product::where('stock', '>', 0)->get();
         return view('layouts.front_store')->with('products', $products);
+    }
+
+    /**
+     * Show the application cart.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function cartFront()
+    {
+        $user_id = request()->user_id;
+        $cart = Cart::where('user_id', $user_id)->first();
+        $products = [];
+        foreach($cart->products as $product => $quantity){
+            $product_model = Product::find($product);
+            $product_array =
+                [
+                    "quantity" => $quantity,
+                    "price" => $product_model->price * $quantity,
+                    "name" => $product_model->name,
+                    "photo" => $product_model->photo
+                ];
+            array_push($products, $product_array);
+        }
+        $client = Auth::user();
+        return view('layouts.front_cart', compact($client, 'client'))->with('products', $products);
     }
 }
