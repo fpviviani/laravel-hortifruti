@@ -17,13 +17,14 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
+Route::get('/store', 'HomeController@storeFront');
 Route::get('/home', 'HomeController@index')->middleware('verified');
 
 // Buys
 Route::group(["prefix" => "buys"], function () {
-    Route::get("/delivered", ["as"=>"buys.index", "uses"=>"BuyController@index"]);
-    Route::get("/not-delivered", ["as"=>"buys.index", "uses"=>"BuyController@index"]);
-    Route::post("/", ["as"=>"buys.store",   "uses"=>"BuyController@store"]);
+    Route::get("/delivered", ["as"=>"buys.delivered", "uses"=>"BuyController@index"]);
+    Route::get("/not-delivered", ["as"=>"buys.not_delivered", "uses"=>"BuyController@index"]);
+    Route::post("/", ["as"=>"buys.store", "uses"=>"BuyController@store"]);
     Route::get("/{buy_id}", ["as"=>"buys.show", "uses"=>"BuyController@show"]);
 });
 

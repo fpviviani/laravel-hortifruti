@@ -1,0 +1,151 @@
+/*!
+ * Start Bootstrap - Shop Homepage (https://startbootstrap.com/templates/shop-homepage)
+ * Copyright 2013-2020 Start Bootstrap
+ * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-homepage/blob/master/LICENSE)
+ */
+body {
+  padding-top: 56px;
+}
+
+.row{
+  margin: 3rem 0 3rem 0;
+}
+
+.header-loja img{
+  width: 100%;
+  height: 30rem;
+  object-fit: cover;
+}
+
+.header-loja h1{
+position: relative;
+top: -17rem;
+color: white;
+text-align: center;
+}
+
+
+.card-img, .card-img-bottom, .card-img-top {
+  height: 12rem;
+  object-fit: cover;
+}
+.card-body {
+  text-align: center;
+}
+
+.card{
+  border: none;
+}
+
+.card-title {
+  font-weight: 600;
+  color: black;
+}
+
+.btn-loja{
+  border-color: #F95800;
+  margin-top: 15px;
+  background-color: #F95800;
+  border-radius: 40px;
+  min-height: 3rem;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #F95800;
+  border-color: #F95800;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #c64402;
+  border-color: #c64402;
+}
+
+.input-numero{
+  width: 40%;
+  
+}
+
+  .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+    color: #fff;
+  background-color: #c64402;
+  border-color: #c64402;
+}
+
+.btn-primary.focus, .btn-primary:focus {
+  color: #fff;
+  background-color: #c64402;
+  border-color: #c64402;
+  box-shadow: 0 0 0 0.2rem rgba(240, 111, 24, 0.5);
+}
+
+
+
+
+.area-carrinho h1{
+  margin: 2rem 0;
+}
+
+.area-carrinho h2{
+  margin: 2rem 0;
+}
+.area-carrinho .lista-carrinho{
+  margin-bottom: 2rem;
+  width: 50%;
+}
+
+.btn-remover{
+  background-color: red;
+  color: white;
+}
+
+.btn-envio{
+  background-color: #c64402;
+  color: white;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+  min-height: 4rem;
+  width: 17rem;
+}
+
+.badge-primary {
+  color: #fff;
+  background-color: orange;
+}
+
+#modal-compra .modal-footer{
+  justify-content: center;
+}
+
+#input-rua{
+  width: 20rem;
+}
+
+#input-numero{
+  width: 6rem;
+}
+
+#input-bairro{
+  width: 15rem;
+}
+
+#input-cidade{
+  width: 15rem;
+}
+
+#input-estado{
+  width: 5rem;
+}
+
+@media screen and (max-width: 767px) {
+  .area-carrinho .lista-carrinho{
+    width: 100%;
+  }
+
+  .btn-envio{
+    margin-right: auto;
+    display: block;
+    margin-left: auto;
+  }
+}

@@ -6,6 +6,9 @@ use App\Models\Buy;
 use App\Services\DataTablesDefaults;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Datatables;
+use Request;
+use DB;
 
 class BuyDataTable extends DataTable
 {

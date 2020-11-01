@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class HomeController extends Controller
 {
@@ -24,5 +25,16 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    /**
+     * Show the application store.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function storeFront()
+    {
+        $products = Product::where('stock', '>', 0)->get();
+        return view('layouts.front_store')->with('products', $products);
     }
 }
