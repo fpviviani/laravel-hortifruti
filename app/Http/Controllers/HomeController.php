@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Cart;
+use App\User;
 use Auth;
 
 class HomeController extends Controller
@@ -60,7 +61,13 @@ class HomeController extends Controller
                 ];
             array_push($products, $product_array);
         }
-        $client = Auth::user();
-        return view('layouts.front_cart', compact($client, 'client'))->with('products', $products);
+        $logged = Auth::user();
+        $client = User::find($user_id);
+        if($logged->id != $user_id && $logged->name != "Super Admin"){
+            $products = Product::where('stock', '>', 0)->get();
+            return view('layouts.front_store')->with('products', $products);
+        }else{
+            return view('layouts.front_cart', compact($client, 'client'))->with('products', $products);
+        }
     }
 }

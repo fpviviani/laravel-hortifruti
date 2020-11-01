@@ -1,15 +1,10 @@
-{!! Form::open(['route' => ['buys.destroy', $id], 'method' => 'delete']) !!}
 <div class='btn-group'>
     <a href="{{ route('buys.show', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-eye-open"></i>
     </a>
-    <a href="{{ route('buys.edit', $id) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
-    </a>
-    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [
-        'type' => 'submit',
-        'class' => 'btn btn-danger btn-xs',
-        'onclick' => "return confirm('Are you sure?')"
-    ]) !!}
+    @if($is_delivered == false)
+        <a href="{{ route('buys.deliver', $id) }}" class='btn btn-success btn-xs'>
+            <i class="glyphicon glyphicon-check"></i>
+        </a>
+    @endif
 </div>
-{!! Form::close() !!}

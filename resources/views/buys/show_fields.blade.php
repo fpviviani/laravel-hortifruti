@@ -1,36 +1,36 @@
-<!-- Id Field -->
-<div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{{ $buy->id }}</p>
-</div>
-
 <!-- User Id Field -->
 <div class="form-group">
-    {!! Form::label('user_id', 'User Id:') !!}
+    {!! Form::label('user_id', \Lang::get('attributes.cliente').':') !!}
     <p>{{ $buy->user_id }}</p>
 </div>
 
 <!-- Total Value Field -->
 <div class="form-group">
-    {!! Form::label('total_value', 'Total Value:') !!}
-    <p>{{ $buy->total_value }}</p>
+    {!! Form::label('total_value', \Lang::get('attributes.total_value').':') !!}
+    <p>R${{str_replace(".", ",", $buy->total_value)}}</p>
 </div>
 
 <!-- Date Field -->
 <div class="form-group">
-    {!! Form::label('date', 'Date:') !!}
-    <p>{{ $buy->date }}</p>
+    {!! Form::label('date', \Lang::get('attributes.date').':') !!}
+    <p>{{ $buy->readable_date }}</p>
 </div>
 
-<!-- Created At Field -->
-<div class="form-group">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $buy->created_at }}</p>
+@foreach($buy->products as $product)
+<div class="row">
+    <div class="col-md-6">
+        <!-- Date Field -->
+        <div class="form-group">
+            {!! Form::label('date', 'Produto:') !!}
+            <p>{{ $product->name }}</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <!-- Date Field -->
+        <div class="form-group">
+            {!! Form::label('date', 'Quantidade:') !!}
+            <p>{{ $product->pivot->product_quantity }}</p>
+        </div>
+    </div>
 </div>
-
-<!-- Updated At Field -->
-<div class="form-group">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $buy->updated_at }}</p>
-</div>
-
+@endforeach

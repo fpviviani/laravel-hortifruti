@@ -8,8 +8,11 @@ use App\Http\Requests\CreateBuyRequest;
 use App\Http\Requests\UpdateBuyRequest;
 use App\Repositories\BuyRepository;
 use App\Models\BuyProduct;
+use App\Models\Product;
+use App\Models\Cart;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use Carbon\Carbon;
 use Response;
 
 class BuyController extends AppBaseController
@@ -43,22 +46,32 @@ class BuyController extends AppBaseController
     public function store(CreateBuyRequest $request)
     {
         $input = $request->all();
-        $buy = $this->buyRepository->create($input);
-        foreach($input["product_ids"] as $key => $product_id){
-        $buy = $this->buyRepository->create($input);
-            $buy_product_input["buy_id"] = $buy->id;
-            $buy_product_input["product_id"] = $product_id;
-            $buy_product_input["product_quantity"] = $input["product_quantities"][$key];
-            $buy_product_input["product_price"] = $input["product_prices"][$key];
-            BuyProduct::create($buy_product_input);
-            $product = Product::find($product_id);
-            $product->stock -= $buy_product_input["product_quantity"];
-            $product->save();
+        $buyInput["user_id"] = request()->user_id;
+        $cart = Cart::where('user_id', $buyInput["user_id"])->first();
+        $buyInput["is_delivered"] = false;
+        $buyInput["total_value"] = 0;
+        foreach($cart->products as $product => $quantity){
+            $product_model = Product::find($product);
+            $price = $product_model->price * $quantity;
+            $buyInput["total_value"] += $price;
         }
+        $buyInput["date"] = Carbon::now();
 
-        Flash::success('Buy saved successfully.');
+        $buy = $this->buyRepository->create($buyInput);
 
-        return redirect(route('buys.index'));
+        foreach($cart->products as $product => $quantity){
+            $product_model = Product::find($product);
+            $buy_product_input["buy_id"] = $buy->id;
+            $buy_product_input["product_id"] = $product;
+            $buy_product_input["product_quantity"] = $quantity;
+            $buy_product_input["product_price"] = $product_model->price;
+            BuyProduct::create($buy_product_input);
+            $product_model->stock -= $buy_product_input["product_quantity"];
+            $product_model->save();
+        }
+        return response()->json([
+            "buy" => true
+        ], 200);
     }
 
     /**
@@ -73,11 +86,19 @@ class BuyController extends AppBaseController
         $buy = $this->buyRepository->find($id);
 
         if (empty($buy)) {
-            Flash::error('Buy not found');
+            Flash::error('Compra não encontrada.');
 
             return redirect(route('buys.index'));
         }
 
         return view('buys.show')->with('buy', $buy);
+    }
+
+    public function deliver($id)
+    {
+        $buy = $this->buyRepository->find($id);
+        $buy->is_delivered = true;
+        $buy->save();
+        return redirect(route('buys.delivered'));
     }
 }

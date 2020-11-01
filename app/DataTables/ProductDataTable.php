@@ -3,8 +3,10 @@
 namespace App\DataTables;
 
 use App\Models\Product;
+use App\Services\DataTablesDefaults;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Datatables;
 
 class ProductDataTable extends DataTable
 {
@@ -16,9 +18,16 @@ class ProductDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        $dataTable = new EloquentDataTable($query);
-
-        return $dataTable->addColumn('action', 'products.datatables_actions');
+        $products = Product::select(
+            "products.*"
+        );
+        return DataTables::of($products)
+            ->editColumn("price", function ($product) {
+                $formated = "R$ " . number_format($product->price, 2, ',', '.');
+                return $formated;
+            })
+            ->addColumn("action", "products.datatables_actions")
+            ->rawColumns(["action", "name"]);
     }
 
     /**
@@ -42,19 +51,8 @@ class ProductDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['width' => '120px', 'printable' => false])
-            ->parameters([
-                'dom'       => 'Bfrtip',
-                'stateSave' => true,
-                'order'     => [[0, 'desc']],
-                'buttons'   => [
-                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
-                ],
-            ]);
+            ->addAction(['width' => '120px', "title" => \Lang::get("datatable.action")])
+            ->parameters(DataTablesDefaults::getParameters());
     }
 
     /**
@@ -65,10 +63,9 @@ class ProductDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'name',
-            'price',
-            'stock'
-            
+            "name" => ["name" => "name", "render" => "(data!=null)? ((data.length>180)? data.substr(0,180)+'...' : data) : '-'", "title" => \Lang::get("attributes.name")],
+            "price" => ["name" => "price", "render" => "(data!=null)? ((data.length>180)? data.substr(0,180)+'...' : data) : '-'", "title" => \Lang::get("attributes.price")],
+            "stock" => ["name" => "stock", "render" => "(data!=null)? ((data.length>180)? data.substr(0,180)+'...' : data) : '-'", "title" => \Lang::get("attributes.stock")],
         ];
     }
 

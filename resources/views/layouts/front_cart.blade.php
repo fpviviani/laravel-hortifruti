@@ -112,7 +112,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <button type="button" class="btn btn-primary btn-loja" data-toggle="modal" data-target="#exampleModalCenter">
+            <button type="button" class="btn btn-primary btn-enviar" data-toggle="modal" data-target="#exampleModalCenter">
                 Pode Enviar!
             </button>
         </div>
@@ -128,7 +128,7 @@
                 <h6>Seu produto será enviado o mais rápido possível!</h6>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Top d+</button>
+                <button type="button" class="btn btn-primary top-btn" data-dismiss="modal">Top d+</button>
             </div>
             </div>
         </div>
@@ -148,7 +148,26 @@
         // Dynamically fill address
         $(document).ready(function() {
             var authUser = "{{{ (Auth::user()) ? Auth::user() : null }}}";
-           
+            $(".btn-enviar").on("click", function() {
+                var userId = {{ Auth::user()->id }};
+                route = "{{ route('buys.store', ':user_id') }}";
+                route = route.replace(":user_id", userId);
+
+                // Ajax request
+                $.ajax({
+                    url: route,
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                    }
+                });
+            });
+            $(".top-btn").on("click", function() {
+                location.reload();
+            });
         });
     </script>
 </body>

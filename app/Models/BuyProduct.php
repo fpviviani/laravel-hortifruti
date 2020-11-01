@@ -16,6 +16,7 @@ class BuyProduct extends Model
 {
 
     public $table = 'buy_product';
+    public $timestamps = false;
     
     public $fillable = [
         'buy_id', 'product_id', 'product_quantity', 'product_price'

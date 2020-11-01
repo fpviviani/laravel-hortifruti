@@ -20,38 +20,44 @@ class BuyDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        if(Request::is('*delivered*')){
+        if(Request::is('*not-delivered*')){
             $buys = Buy::select(
                 "buys.*",
                 DB::raw("(
                     SELECT users.name
                     FROM users
-                    WHERE users.id = buys.user_id
-                ) as client_name")
-            )->where('is_delivered', true);
+                    WHERE buys.user_id = users.id
+                ) as client_name"),
+                DB::raw("DATE_FORMAT(buys.date,'%d/%m/%Y') as readable_date")
+            )->where('is_delivered', false);
         }else{
             $buys = Buy::select(
                 "buys.*",
                 DB::raw("(
                     SELECT users.name
                     FROM users
-                    WHERE users.id = buys.user_id
-                ) as client_name")
-            )->where('is_delivered', false);
+                    WHERE buys.user_id = users.id
+                ) as client_name"),
+                DB::raw("DATE_FORMAT(buys.date,'%d/%m/%Y') as readable_date")
+            )->where('is_delivered', true);
         }
 
         return DataTables::of($buys)
-            // ->editColumn("user_id", function ($debt) {
-            //     $id = $debt->id;
-            //     $url = route("debts.dashboard",[request()->client_id, $id]);
-            //     return "<a href='{$url}'>{$id}</a>";
-            // })
-            ->filterColumn('user_id', function($query, $keyword){
+            ->filterColumn('client_name', function($query, $keyword){
                 $query->whereRaw("(
                     SELECT users.name
-                    FROM users
-                    WHERE users.id = buys.user_id
+                     FROM users
+s                    WHERE buys.user_id = users.id
                 ) like ?", ["%{$keyword}%"]);
+            })
+            ->editColumn("total_value", function ($buy) {
+                $formated = "R$ " . number_format($buy->total_value, 2, ',', '.');
+                return $formated;
+            })
+            ->filterColumn('readable_date', function($query, $keyword){
+                $query->whereRaw("
+                    DATE_FORMAT(buys.date,'%d/%m/%Y')
+                like ?", ["%{$keyword}%"]);
             })
             ->addColumn("action", "buys.datatables_actions")
             ->rawColumns(["action", "client_name"]);
@@ -78,7 +84,7 @@ class BuyDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['width' => '120px', "title" => \Lang::get("datatables.action")])
+            ->addAction(['width' => '120px', "title" => \Lang::get("datatable.action")])
             ->parameters(DataTablesDefaults::getParameters());
     }
 
@@ -90,9 +96,9 @@ class BuyDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            "client_name" => ["name" => "user", "render" => "(data!=null)? ((data.length>180)? data.substr(0,180)+'...' : data) : '-'", "title" => \Lang::get("attributes.cliente")],
-            "total_value" => ["total_value" => "user", "render" => "(data!=null)? ((data.length>180)? data.substr(0,180)+'...' : data) : '-'", "title" => \Lang::get("attributes.total_value")],
-            "date" => ["date" => "user", "render" => "(data!=null)? ((data.length>180)? data.substr(0,180)+'...' : data) : '-'", "title" => \Lang::get("attributes.date")],
+            "readable_date" => ["date" => "readable_date", "render" => "(data!=null)? ((data.length>180)? data.substr(0,180)+'...' : data) : '-'", "title" => \Lang::get("attributes.date")],
+            "client_name" => ["name" => "client_name", "render" => "(data!=null)? ((data.length>180)? data.substr(0,180)+'...' : data) : '-'", "title" => \Lang::get("attributes.cliente")],
+            "total_value" => ["date" => "total_value", "render" => "(data!=null)? ((data.length>180)? data.substr(0,180)+'...' : data) : '-'", "title" => \Lang::get("attributes.total_value")],
         ];
     }
 

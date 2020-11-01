@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Eloquent as Model;
 
 /**
@@ -42,16 +43,34 @@ class Buy extends Model
      * @var array
      */
     public static $rules = [
-        'user_id' => 'required',
-        'total_value' => 'required',
-        'date' => 'required'
     ];
 
+    protected $appends = [
+        'readable_date',
+    ];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
     public function user()
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     **/
+    public function products()
+    {
+        return $this->belongsToMany(\App\Models\Product::class, 'buy_product', 'buy_id', 'product_id')->withPivot('id', 'product_quantity');
+    }
+
+    /**
+     * Get date formatted as d/m/Y | H:i
+     *
+     * @return string
+     */
+    public function getReadableDateAttribute()
+    {
+        return is_null($this->date)? null : Carbon::parse($this->date)->format('d/m/Y | H:i');
     }
 }

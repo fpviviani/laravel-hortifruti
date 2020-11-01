@@ -2,9 +2,8 @@
 
 @section('content')
     <section class="content-header">
-        <h1>
-            Product
-        </h1>
+    <h1 class="title-header">{!! \Lang::choice("tables.products", "s") !!}</h1>
+
     </section>
     <div class="content">
         @include('adminlte-templates::common.errors')

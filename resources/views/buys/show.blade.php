@@ -2,16 +2,14 @@
 
 @section('content')
     <section class="content-header">
-        <h1>
-            Buy
-        </h1>
+    <h1 class="title-header">{!! \Lang::choice("tables.buys", "s") !!}</h1>
+
     </section>
     <div class="content">
         <div class="box box-primary">
             <div class="box-body">
                 <div class="row" style="padding-left: 20px">
                     @include('buys.show_fields')
-                    <a href="{{ route('buys.index') }}" class="btn btn-default">Back</a>
                 </div>
             </div>
         </div>

@@ -1,18 +1,18 @@
 <!-- Price Field -->
 <div class="form-group col-sm-12">
-    {!! Form::label('name', 'Name:') !!}
+    {!! Form::label('name', \Lang::get('attributes.name').':') !!}
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Price Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('price', 'Price:') !!}
+    {!! Form::label('price', \Lang::get('attributes.price').':') !!}
     {!! Form::text('price', null, ['class' => 'form-control money-mask']) !!}
 </div>
 
 <!-- Stock Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('stock', 'Stock:') !!}
+    {!! Form::label('stock', \Lang::get('attributes.stock').':') !!}
     {!! Form::number('stock', null, ['class' => 'form-control']) !!}
 </div>
 
@@ -44,5 +44,5 @@
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-    <a href="{{ route('products.index') }}" class="btn btn-default">Cancel</a>
+    <a href="{{ route('products.index') }}" class="btn btn-default">Cancelar</a>
 </div>

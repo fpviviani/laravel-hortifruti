@@ -1,24 +1,18 @@
-<!-- Id Field -->
-<div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{{ $product->id }}</p>
-</div>
-
 <!-- Name Field -->
 <div class="form-group">
-    {!! Form::label('name', 'Name:') !!}
+    {!! Form::label('name', \Lang::get('attributes.name').':') !!}
     <p>{{ $product->name }}</p>
 </div>
 
 <!-- Price Field -->
 <div class="form-group">
-    {!! Form::label('price', 'Price:') !!}
+    {!! Form::label('price', \Lang::get('attributes.price').':') !!}
     <p>{{ $product->price }}</p>
 </div>
 
 <!-- Stock Field -->
 <div class="form-group">
-    {!! Form::label('stock', 'Stock:') !!}
+    {!! Form::label('stock', \Lang::get('attributes.stock').':') !!}
     <p>{{ $product->stock }}</p>
 </div>
 
@@ -34,16 +28,3 @@
         </div>
     </div>
 @endif
-
-<!-- Created At Field -->
-<div class="form-group">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $product->created_at }}</p>
-</div>
-
-<!-- Updated At Field -->
-<div class="form-group">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $product->updated_at }}</p>
-</div>
-

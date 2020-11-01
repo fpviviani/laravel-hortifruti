@@ -22,16 +22,22 @@ Auth::routes(['verify' => false]);
 Route::group(["prefix" => "cart"], function () {
     Route::post("/{user_id}/modify-cart", ["as"=>"cart.modify", "uses"=>"CartController@storeOrUpdate"]);
 });
+Route::get('/{user_id}/cart', ["as"=>"cart.index", "uses"=>"HomeController@cartFront"]);
+
+Route::group(["middleware" => ["auth"]], function () {
+    Route::group(["prefix" => "buys"], function () {
+        Route::post("/store/{user_id}", ["as"=>"buys.store", "uses"=>"BuyController@store"]);
+    });
+});
 
 Route::group(["middleware" => ["auth", "super"]], function () {
-    Route::get('/{user_id}/cart', ["as"=>"cart.index", "uses"=>"HomeController@cartFront"]);
 
     // Buys
     Route::group(["prefix" => "buys"], function () {
         Route::get("/delivered", ["as"=>"buys.delivered", "uses"=>"BuyController@index"]);
         Route::get("/not-delivered", ["as"=>"buys.not_delivered", "uses"=>"BuyController@index"]);
-        Route::post("/", ["as"=>"buys.store", "uses"=>"BuyController@store"]);
         Route::get("/{buy_id}", ["as"=>"buys.show", "uses"=>"BuyController@show"]);
+        Route::get("/{buy_id}/devliver", ["as"=>"buys.deliver", "uses"=>"BuyController@deliver"]);
     });
 
     // Products

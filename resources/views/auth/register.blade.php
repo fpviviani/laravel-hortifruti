@@ -53,11 +53,12 @@
 </head>
 <body class="hold-transition register-page">
 <div class="register-box">
-    <div class="register-logo">
-        <a href="{{ url('/home') }}"><img src="{{ asset('images/logo.png') }}" height="80px"></a>
-    </div>
+
 
     <div class="register-box-body">
+        <div class="register-logo">
+            <a href="{{ url('/home') }}"><img src="{{ asset('images/logo.png') }}" height="80px"></a>
+        </div>
         <p class="login-box-msg">Crie sua conta agora mesmo</p>
 
         <form method="post" action="{{ url('/register') }}">

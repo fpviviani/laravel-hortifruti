@@ -88,7 +88,7 @@
                         <h5 class="card-title">
                         {{$product->name}}
                         </h5>
-                        <h5>R${{$product->price}}</h5>
+                        <h5>R${{str_replace(".", ",", $product->price)}}</h5>
                         <h5>Disponível: {{$product->stock}} unidades.</h5>
                         <button type="button" class="btn btn-primary btn-loja"  product-id="{{$product->id}}" quantity="{{$product->stock}}"  data-toggle="modal" data-target="#exampleModalCenter">
                         Adicionar ao carrrinho
@@ -119,6 +119,17 @@
             </div>
         @endforeach
     </div>
+    @if(Auth::user())
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ route('cart.index', Auth::user()->id) }}">
+                    <button type="button" class="btn btn-primary">
+                        Visualizar carrrinho
+                    </button>
+                </a>
+            </div>
+        </div>
+    @endif
     <!-- /.row -->
   </div>
   @include('layouts.front_footer')
@@ -181,7 +192,7 @@
                         }else{
                             alert("Não foi possível adicionar o produto ao carrinho.");
                         }
-                        window.location.href = "{{ url('/') }}" + userId + "/cart";
+                        location.reload();
                     }
                 });
             });

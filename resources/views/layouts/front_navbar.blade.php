@@ -11,10 +11,10 @@
                     @else
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contato</a></li>
                     @endif
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="store">Loja</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('store.index') }}">Loja</a></li>
                     @if(Auth::user())
                         @if(Auth::user()->name == "Super Admin")
-                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="buys/not-delivered">Painel</a></li>
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('buys.not_delivered') }}">Painel</a></li>
                         @endif
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="logout"
                             <a href="{!! url('/logout') !!}" class="btn btn-default btn-flat" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
