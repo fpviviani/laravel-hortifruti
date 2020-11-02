@@ -46,8 +46,8 @@ class BuyDataTable extends DataTable
             ->filterColumn('client_name', function($query, $keyword){
                 $query->whereRaw("(
                     SELECT users.name
-                     FROM users
-s                    WHERE buys.user_id = users.id
+                    FROM users
+                    WHERE buys.user_id = users.id
                 ) like ?", ["%{$keyword}%"]);
             })
             ->editColumn("total_value", function ($buy) {

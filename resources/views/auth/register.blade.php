@@ -131,13 +131,13 @@
                 @endif
             </div>
 
-            <div class="form-group has-feedback{{ $errors->has('complement') ? ' has-error' : '' }}">
-                <input type="text" class="form-control" name="complement" value="{{ old('complement') }}" placeholder="Complemento">
+            <div class="form-group has-feedback{{ $errors->has('adress_complement') ? ' has-error' : '' }}">
+                <input type="text" class="form-control" name="adress_complement" value="{{ old('adress_complement') }}" placeholder="Complemento">
                 <span class="glyphicon glyphicon-globe form-control-feedback"></span>
 
-                @if ($errors->has('complement'))
+                @if ($errors->has('adress_complement'))
                     <span class="help-block">
-                        <strong>{{ $errors->first('complement') }}</strong>
+                        <strong>{{ $errors->first('adress_complement') }}</strong>
                     </span>
                 @endif
             </div>

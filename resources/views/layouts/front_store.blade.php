@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Hortifruti bacana</title>
+  <title>Hortifruti</title>
 
     <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="{{ asset('css/front_style.css') }}">
@@ -119,7 +119,7 @@
             </div>
         @endforeach
     </div>
-    @if(Auth::user())
+    @if(Auth::user() && Auth::user()->name != "Super Admin")
         <div class="row">
             <div class="col-md-12">
                 <a href="{{ route('cart.index', Auth::user()->id) }}">
@@ -145,6 +145,11 @@
         // Dynamically fill address
         $(document).ready(function() {
             var authUser = "{{{ (Auth::user()) ? Auth::user() : null }}}";
+            if(authUser.length != 0){
+                var authUserParsed = JSON.parse(authUser.replace(/&quot;/g,'"'));
+            }else{
+                var authUserParsed = null;
+            }
             var inputQuantity = 0;
             var productId = 0;
             var availableQuantity = 0;
@@ -156,7 +161,7 @@
                 }
 
                 inputQuantity = $(this).val();
-                if (inputQuantity > availableQuantity || inputQuantity < 0){
+                if (parseInt(inputQuantity) > parseInt(availableQuantity) || parseInt(inputQuantity) < 0){
                     alert("Não é possível encomendar a quantidade desejada. Disponíveis: " + availableQuantity);
                     $(this).val("0");
                     return false;
@@ -170,8 +175,8 @@
 
             $(".add-button").on("click", function() {
                 if(authUser.length != 0){
-                    var userId = {{ Auth::user()->id }};
-                }
+                    var userId = authUserParsed["id"];
+                }   
                 route = "{{ route('cart.modify', ':user_id') }}";
                 route = route.replace(":user_id", userId);
 

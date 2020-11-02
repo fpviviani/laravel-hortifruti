@@ -12,16 +12,12 @@ class ConfigSeeder extends Seeder
      */
     public function run()
     {
-        // Roles
-        $roles = array_map('addTimestamp', array_values(config('enums.roles')));
-        DB::table('roles')->insert($roles);
-
         // Super admin user
         DB::table('users')->insert(['name' => 'Super Admin', 'email' => 'super@admin.com', 'password' => bcrypt('123456'), 'phone' => NULL, 'phone' => '', 'cpf' => '1212121', 'created_at' => DB::raw('CURRENT_TIMESTAMP'), 'updated_at' => DB::raw('CURRENT_TIMESTAMP')]);
-        DB::table('model_has_roles')->insert(['role_id' => config('enums.roles.SUPER_ADMIN.id'), 'model_type' => 'App\Models\User','model_id' => 1]);
 
-        // Admin user
-        DB::table('users')->insert(['name' => 'Admin', 'email' => 'admin@admin.com', 'password' => bcrypt('123456'), 'phone' => NULL,  'phone' => '', 'cpf' => '12121222', 'created_at' => DB::raw('CURRENT_TIMESTAMP'), 'updated_at' => DB::raw('CURRENT_TIMESTAMP')]);
-        DB::table('model_has_roles')->insert(['role_id' => config('enums.roles.ADMIN.id'), 'model_type' => 'App\Models\User','model_id' => 2]);
+        // Product
+        DB::table('products')->insert(['name' => 'Manga', 'price' => 3, 'stock' => 20, 'photo' => "https://conteudo.imguol.com.br/c/entretenimento/36/2020/05/22/manga-1590176595629_v2_615x300.jpg"]);
+        DB::table('products')->insert(['name' => 'Brócolis', 'price' => 2, 'stock' => 15, 'photo' => "https://conteudo.imguol.com.br/c/entretenimento/53/2020/05/04/brocolis-1588626077191_v2_450x337.jpg"]);
+
     }
 }
